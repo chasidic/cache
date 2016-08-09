@@ -1,2 +1,1 @@
-# k-cache
 # @chasidic/cache

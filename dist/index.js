@@ -1,5 +1,3 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-__export(require('./Cache'));
+var Cache_1 = require('./Cache');
+exports.Cache = Cache_1.Cache;
