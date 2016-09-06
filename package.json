@@ -22,7 +22,7 @@
   "author": "Ilan Frumer <ilanfrumer@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^2.1.0-dev.20160802"
+    "typescript": "^2.0.2"
   },
   "dependencies": {
     "@types/fs-extra-promise": "0.0.28",
