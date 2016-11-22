@@ -1,8 +1,6 @@
 import { ICache } from './ICache';
-export declare class Cache implements ICache {
-    private CACHE_DIR;
-    constructor(CACHE_DIR: string);
-    private _normalize(key);
+export declare class MemoryCache implements ICache {
+    private memory;
     clear(): Promise<void>;
     has(key: string): Promise<boolean>;
     remove(key: string): Promise<void>;

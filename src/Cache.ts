@@ -1,4 +1,5 @@
 import { parse } from 'url';
+import { ICache } from './ICache';
 
 import {
   resolve,
@@ -15,9 +16,9 @@ import {
   writeFileAsync
 } from 'fs-extra-promise';
 
-export class Cache {
+export class Cache implements ICache {
 
-  constructor(private CACHE_DIR: string = null) { /* */}
+  constructor(private CACHE_DIR: string) { }
 
   private _normalize(key: string) {
     let parsed = parse(key);
@@ -27,50 +28,36 @@ export class Cache {
     let ext = extname(name);
 
     let normalized = ext ?
-      `${ hostname }${ dirname(name) }.${ base }` :
-      `${ hostname }${ name }.html`;
+      `${hostname}${dirname(name)}.${base}` :
+      `${hostname}${name}.html`;
 
     return resolve(this.CACHE_DIR, normalized);
   }
 
   async clear() {
-    if (this.CACHE_DIR != null) {
-      await removeAsync(this.CACHE_DIR);
-    }
+    await removeAsync(this.CACHE_DIR);
   }
 
   async has(key: string) {
-    if (this.CACHE_DIR != null) {
-      let filepath = this._normalize(key);
-      return await existsAsync(filepath);
-    } else {
-      return false;
-    }
+    let filepath = this._normalize(key);
+    return await existsAsync(filepath);
   }
 
   async remove(key: string) {
-    if (this.CACHE_DIR != null) {
-      let filepath = this._normalize(key);
-      await removeAsync(filepath);
-    }
+    let filepath = this._normalize(key);
+    await removeAsync(filepath);
   }
 
   async get(key: string) {
-    if (this.CACHE_DIR != null) {
-      let filepath = this._normalize(key);
-      let doesExists = await existsAsync(filepath);
-      return doesExists ? await readFileAsync(filepath, { encoding: 'UTF-8' }) : null;
-    } else {
-      return null;
-    }
+    let filepath = this._normalize(key);
+    let doesExists = await existsAsync(filepath);
+    return doesExists ? await readFileAsync(filepath, { encoding: 'UTF-8' }) : null;
   }
 
   async set(key: string, value: string) {
-    if (this.CACHE_DIR != null) {
-      let filepath = this._normalize(key);
-      let dirpath = dirname(filepath);
-      await ensureDirAsync(dirpath);
-      await writeFileAsync(filepath, value, { encoding: 'UTF-8' });
-    }
+    let filepath = this._normalize(key);
+    let dirpath = dirname(filepath);
+    await ensureDirAsync(dirpath);
+    await writeFileAsync(filepath, value, { encoding: 'UTF-8' });
   }
 }
