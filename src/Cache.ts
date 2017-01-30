@@ -16,20 +16,20 @@ import {
   writeFileAsync
 } from 'fs-extra-promise';
 
-export class Cache implements ICache {
+export class Cache<T> implements ICache {
 
-  constructor(private CACHE_DIR: string) { }
+  constructor(private CACHE_DIR: string, private extension = 'html') { }
 
   private _normalize(key: string) {
     let parsed = parse(key);
-    let hostname = parsed.hostname;
+    let hostname = parsed.hostname || '';
     let name = parsed.path && parsed.path !== '/' ? parsed.path : '/index';
     let base = basename(name);
     let ext = extname(name);
 
     let normalized = ext ?
       `${hostname}${dirname(name)}.${base}` :
-      `${hostname}${name}.html`;
+      `${hostname}${name}.${this.extension}`;
 
     return resolve(this.CACHE_DIR, normalized);
   }
@@ -59,5 +59,14 @@ export class Cache implements ICache {
     let dirpath = dirname(filepath);
     await ensureDirAsync(dirpath);
     await writeFileAsync(filepath, value, { encoding: 'UTF-8' });
+  }
+
+  async getJSON<T>(key: string) {
+    const val = await this.get(key);
+    return val != null ? <T> JSON.parse(val) : null;
+  }
+
+  async setJSON<T>(key: string, value: T) {
+    await this.set(key, JSON.stringify(value, null, 2));
   }
 }

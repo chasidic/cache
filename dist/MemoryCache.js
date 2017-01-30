@@ -29,5 +29,16 @@ class MemoryCache {
             this.memory.set(key, value);
         });
     }
+    getJSON(key) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            const val = yield this.get(key);
+            return val != null ? JSON.parse(val) : null;
+        });
+    }
+    setJSON(key, value) {
+        return tslib_1.__awaiter(this, void 0, void 0, function* () {
+            yield this.set(key, JSON.stringify(value));
+        });
+    }
 }
 exports.MemoryCache = MemoryCache;

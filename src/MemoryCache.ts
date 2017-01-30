@@ -2,7 +2,7 @@ import { ICache } from './ICache';
 
 export class MemoryCache implements ICache  {
 
-  private memory = new Map<string,string>();
+  private memory = new Map<string, string>();
 
   async clear() {
     this.memory.clear();
@@ -17,10 +17,19 @@ export class MemoryCache implements ICache  {
   }
 
   async get(key: string) {
-    return this.memory.get(key) || null;      
+    return this.memory.get(key) || null;
   }
 
   async set(key: string, value: string) {
     this.memory.set(key, value);
+  }
+
+  async getJSON<T>(key: string) {
+    const val = await this.get(key);
+    return val != null ? <T> JSON.parse(val) : null;
+  }
+
+  async setJSON<T>(key: string, value: T) {
+    await this.set(key, JSON.stringify(value));
   }
 }
