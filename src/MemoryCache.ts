@@ -1,6 +1,4 @@
-import { ICache } from './ICache';
-
-export class MemoryCache implements ICache  {
+export class MemoryCache {
 
   private memory = new Map<string, string>();
 

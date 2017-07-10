@@ -1,5 +1,4 @@
 import { parse } from 'url';
-import { ICache } from './ICache';
 
 import {
   resolve,
@@ -16,7 +15,7 @@ import {
   writeFileAsync
 } from 'fs-extra-promise';
 
-export class Cache<T> implements ICache {
+export class Cache<T> {
 
   constructor(private CACHE_DIR: string, private extension = 'html') { }
 

@@ -1,5 +1,4 @@
-import { ICache } from './ICache';
-export declare class Cache<T> implements ICache {
+export declare class Cache<T> {
     private CACHE_DIR;
     private extension;
     constructor(CACHE_DIR: string, extension?: string);

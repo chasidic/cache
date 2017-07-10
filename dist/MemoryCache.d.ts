@@ -1,5 +1,4 @@
-import { ICache } from './ICache';
-export declare class MemoryCache implements ICache {
+export declare class MemoryCache {
     private memory;
     clear(): Promise<void>;
     has(key: string): Promise<boolean>;
