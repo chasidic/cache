@@ -22,11 +22,11 @@
   "author": "Ilan Frumer <ilanfrumer@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^2.3.4"
+    "typescript": "^2.4.1"
   },
   "dependencies": {
     "@types/fs-extra": "^3.0.3",
-    "@types/fs-extra-promise": "1.0.1",
+    "@types/fs-extra-promise": "1.0.2",
     "fs-extra-promise": "^1.0.1",
     "tslib": "^1.7.1"
   }

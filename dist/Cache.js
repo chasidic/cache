@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
 const url_1 = require("url");
 const path_1 = require("path");
 const fs_extra_promise_1 = require("fs-extra-promise");
@@ -20,48 +19,34 @@ class Cache {
             `${hostname}${name}.${this.extension}`;
         return path_1.resolve(this.CACHE_DIR, normalized);
     }
-    clear() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            yield fs_extra_promise_1.removeAsync(this.CACHE_DIR);
-        });
+    async clear() {
+        await fs_extra_promise_1.removeAsync(this.CACHE_DIR);
     }
-    has(key) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            let filepath = this._normalize(key);
-            return yield fs_extra_promise_1.existsAsync(filepath);
-        });
+    async has(key) {
+        let filepath = this._normalize(key);
+        return await fs_extra_promise_1.existsAsync(filepath);
     }
-    remove(key) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            let filepath = this._normalize(key);
-            yield fs_extra_promise_1.removeAsync(filepath);
-        });
+    async remove(key) {
+        let filepath = this._normalize(key);
+        await fs_extra_promise_1.removeAsync(filepath);
     }
-    get(key) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            let filepath = this._normalize(key);
-            let doesExists = yield fs_extra_promise_1.existsAsync(filepath);
-            return doesExists ? yield fs_extra_promise_1.readFileAsync(filepath, { encoding: 'UTF-8' }) : null;
-        });
+    async get(key) {
+        let filepath = this._normalize(key);
+        let doesExists = await fs_extra_promise_1.existsAsync(filepath);
+        return doesExists ? await fs_extra_promise_1.readFileAsync(filepath, { encoding: 'UTF-8' }) : null;
     }
-    set(key, value) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            let filepath = this._normalize(key);
-            let dirpath = path_1.dirname(filepath);
-            yield fs_extra_promise_1.ensureDirAsync(dirpath);
-            yield fs_extra_promise_1.writeFileAsync(filepath, value, { encoding: 'UTF-8' });
-        });
+    async set(key, value) {
+        let filepath = this._normalize(key);
+        let dirpath = path_1.dirname(filepath);
+        await fs_extra_promise_1.ensureDirAsync(dirpath);
+        await fs_extra_promise_1.writeFileAsync(filepath, value, { encoding: 'UTF-8' });
     }
-    getJSON(key) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            const val = yield this.get(key);
-            return val != null ? JSON.parse(val) : null;
-        });
+    async getJSON(key) {
+        const val = await this.get(key);
+        return val != null ? JSON.parse(val) : null;
     }
-    setJSON(key, value) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            yield this.set(key, JSON.stringify(value, null, 2));
-        });
+    async setJSON(key, value) {
+        await this.set(key, JSON.stringify(value, null, 2));
     }
 }
 exports.Cache = Cache;
