@@ -2,7 +2,7 @@ export declare class Cache<T> {
     private CACHE_DIR;
     private extension;
     constructor(CACHE_DIR: string, extension?: string);
-    private _normalize(key);
+    private _normalize;
     clear(): Promise<void>;
     has(key: string): Promise<boolean>;
     remove(key: string): Promise<void>;
